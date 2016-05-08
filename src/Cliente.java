@@ -4,6 +4,7 @@ import java.net.UnknownHostException;
 
 public class Cliente implements Runnable {
 	
+	public static final int NUMERO_CLIENTES = 64;
 	private int id;
 	private Socket serverSocket;
 	
@@ -19,8 +20,10 @@ public class Cliente implements Runnable {
 	@Override
 	public void run() {
 		try {
+			int i = 0;
 			Trabajo trabajo = Trabajo.pedir(this.serverSocket);
-			while(trabajo != null){
+			System.out.println("Hemos pedido el trabajo");
+			while(trabajo != null || i++<10){
 				hacerTrabajo(trabajo);
 				Trabajo.enviar(this.serverSocket, trabajo);
 				trabajo = Trabajo.pedir(this.serverSocket);

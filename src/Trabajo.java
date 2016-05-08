@@ -4,9 +4,13 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintStream;
+import java.io.Serializable;
 import java.net.Socket;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
-public class Trabajo {
+public class Trabajo implements Serializable {
 	public double xC;
 	public double yC;
 	public double size;
@@ -31,7 +35,10 @@ public class Trabajo {
 	}
 	
 	public void set(double x, double y, int value){
-		this.matriz[(int) y][(int) x] = value;
+		int saveX = (int) (y - yI);
+		int saveY = (int) (y - yI);
+		System.out.println("Guardamos en " + saveX + "," + saveY);
+		this.matriz[saveY][saveX] = value;
 	}
 	
 	public static void enviar(Socket s, Trabajo t) throws IOException{
@@ -40,9 +47,29 @@ public class Trabajo {
 	}
 	
 	public static Trabajo pedir(Socket s) throws IOException, ClassNotFoundException {
-		(new PrintStream(s.getOutputStream())).println(Accion.PEDIR_TRABAJO);
+		Accion pedir_trabajo = new Accion(Accion.PEDIR_TRABAJO);
+		(new ObjectOutputStream(s.getOutputStream())).writeObject(pedir_trabajo);
 		ObjectInputStream isr = new ObjectInputStream(s.getInputStream());
 		return (Trabajo) isr.readObject();
+	}
+	
+	public static Queue<Trabajo> generarCola(int divisiones, double xC, double yC, double size, int N, int maxIt) throws Exception {
+		Queue<Trabajo> cola = new LinkedBlockingQueue<Trabajo>();
+		
+		if (N % divisiones != 0){
+			throw new Exception("Número de divisiones no divide a N");
+		}
+		
+		int tamDivision = N / divisiones;
+		
+		for(int i = 0; i < divisiones; i++){
+			for(int j = 0; j < divisiones; j++){
+				cola.add(new Trabajo(xC, yC, size, N, maxIt, i*tamDivision, j*tamDivision, (i+1)*tamDivision, (j+1)*tamDivision));
+			}
+		}
+		
+		
+		return cola;
 	}
 	
 	

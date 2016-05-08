@@ -1,5 +1,6 @@
 
 import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.PriorityQueue;
 import java.util.Map;
 import java.io.BufferedInputStream;
@@ -16,10 +17,14 @@ import java.util.HashMap;
 public class Servidor implements Runnable {
 	private int puerto;
 	private Queue<Trabajo> trabajosPorRealizar;
-	private Map<Trabajo, Cliente> trabajosRealizando;
+	private Queue<Trabajo> trabajosRealizando;
 	private Queue<Trabajo> trabajosRealizados;
 	
-	Servidor(int puerto){
+	Servidor(int puerto, int divisiones, double xC, double yC, int size, int N, int maxIt) throws Exception {
+		trabajosPorRealizar = Trabajo.generarCola(divisiones, xC, yC, size, N, maxIt);
+		trabajosRealizando = new LinkedBlockingQueue<Trabajo>();
+		trabajosRealizados = new LinkedBlockingQueue<Trabajo>();
+		
 		this.puerto = puerto;
 	}
 	
@@ -27,14 +32,18 @@ public class Servidor implements Runnable {
 		return trabajosPorRealizar.isEmpty() && trabajosRealizando.isEmpty();
 	}
 	
-	public synchronized Trabajo pedirTrabajo(Cliente c){
-		Trabajo actual = trabajosPorRealizar.poll();
-		trabajosRealizando.put(actual, c);
-		return actual;
+	public synchronized Trabajo pedirTrabajo(){
+		if (trabajosPorRealizar.isEmpty()){
+			return null;
+		} else {
+			Trabajo actual = trabajosPorRealizar.poll();
+			trabajosRealizando.add(actual);
+			return actual;
+		}
 	}
 	
 	public synchronized void entregarTrabajo(Trabajo t) throws Exception {
-		if (trabajosRealizando.containsKey(t)){
+		if (trabajosRealizando.contains(t)){
 			trabajosRealizados.add(t);
 			trabajosRealizando.remove(t);
 			if (estanTrabajosCompletados()){
@@ -58,7 +67,7 @@ public class Servidor implements Runnable {
 					Accion accion = (Accion) isr.readObject();
 					switch(accion.getNombre()){
 						case Accion.PEDIR_TRABAJO:
-							Trabajo.enviar(s, pedirTrabajo(null));
+							Trabajo.enviar(s, pedirTrabajo());
 							break;
 						case Accion.ENVIAR_TRABAJO_TERMINADO:
 							entregarTrabajo(accion.getTrabajo());
@@ -66,6 +75,7 @@ public class Servidor implements Runnable {
 						default:
 							throw new Exception("Accion inválida:" + accion.getNombre());
 					}
+					s.close();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -84,6 +94,7 @@ public class Servidor implements Runnable {
 			
 			while(i++ < 10){
 				Socket s = ss.accept();
+				System.out.println("Vamos");
 				procesarConexion(s);
 			}
 			
@@ -93,8 +104,8 @@ public class Servidor implements Runnable {
 		}
 	}
 	
-	public static void main(String[] args){
-		Servidor serv = new Servidor(3000);
+	public static void main(String[] args) throws Exception {
+		Servidor serv = new Servidor(3000, Cliente.NUMERO_CLIENTES * 8, 0, 0, 2048, 2048, 512);
 		Thread serverThread = new Thread(serv);
 		serverThread.start();
 		

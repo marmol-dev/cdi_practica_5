@@ -22,7 +22,7 @@ public class Mandelbrot {
         int N   = trabajo.N;   // create N-by-N image
         int max = trabajo.maxIt;   // maximum number of iterations
 
-        for (int y = yI; y <= yF; y++) {
+        for (int y = yI; y < yF; y++) {
             for (int x = xI; x < xF; x++) {
                 double x0 = xc - size/2 + size*y/N;
                 double y0 = yc - size/2 + size*x/N;
