@@ -28,7 +28,7 @@ public class Mandelbrot {
                 double y0 = yc - size/2 + size*x/N;
                 Complex z0 = new Complex(x0, y0);
                 int gray = max - mand(z0, max);
-                trabajo.set(y, N-1-x, gray);
+                trabajo.set(x, /*N-1-*/y, gray);
             }
         }
     }

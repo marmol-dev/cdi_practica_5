@@ -35,9 +35,9 @@ public class Trabajo implements Serializable {
 	}
 	
 	public void set(double x, double y, int value){
-		int saveX = (int) (y - yI);
 		int saveY = (int) (y - yI);
-		System.out.println("Guardamos en " + saveX + "," + saveY);
+		int saveX = (int) (x - xI);
+		System.out.println("Guardamos en " + x + "," + y + " el inicial " + xI + "," + yI);
 		this.matriz[saveY][saveX] = value;
 	}
 	
@@ -61,7 +61,7 @@ public class Trabajo implements Serializable {
 		}
 		
 		int tamDivision = N / divisiones;
-		
+				
 		for(int i = 0; i < divisiones; i++){
 			for(int j = 0; j < divisiones; j++){
 				cola.add(new Trabajo(xC, yC, size, N, maxIt, i*tamDivision, j*tamDivision, (i+1)*tamDivision, (j+1)*tamDivision));

@@ -65,6 +65,7 @@ public class Servidor implements Runnable {
 				try {
 					ObjectInputStream isr = new ObjectInputStream(s.getInputStream());
 					Accion accion = (Accion) isr.readObject();
+					System.out.println("Recibimos:" + accion.getNombre());
 					switch(accion.getNombre()){
 						case Accion.PEDIR_TRABAJO:
 							Trabajo.enviar(s, pedirTrabajo());
@@ -105,7 +106,7 @@ public class Servidor implements Runnable {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		Servidor serv = new Servidor(3000, Cliente.NUMERO_CLIENTES * 8, 0, 0, 2048, 2048, 512);
+		Servidor serv = new Servidor(3000, Cliente.NUMERO_CLIENTES * 1, 0, 0, 2048, 2048, 512);
 		Thread serverThread = new Thread(serv);
 		serverThread.start();
 		

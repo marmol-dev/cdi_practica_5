@@ -23,7 +23,7 @@ public class Cliente implements Runnable {
 			int i = 0;
 			Trabajo trabajo = Trabajo.pedir(this.serverSocket);
 			System.out.println("Hemos pedido el trabajo");
-			while(trabajo != null || i++<10){
+			while(trabajo != null){
 				hacerTrabajo(trabajo);
 				Trabajo.enviar(this.serverSocket, trabajo);
 				trabajo = Trabajo.pedir(this.serverSocket);
