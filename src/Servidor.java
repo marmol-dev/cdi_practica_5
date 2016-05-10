@@ -3,6 +3,7 @@ import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.PriorityQueue;
 import java.util.Map;
+import java.awt.List;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,17 +14,20 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class Servidor implements Runnable {
 	private int puerto;
 	private Queue<Trabajo> trabajosPorRealizar;
 	private Queue<Trabajo> trabajosRealizando;
 	private Queue<Trabajo> trabajosRealizados;
+	private LinkedList<Thread> clientes;
 	
 	Servidor(int puerto, int divisiones, double xC, double yC, int size, int N, int maxIt) throws Exception {
 		trabajosPorRealizar = Trabajo.generarCola(divisiones, xC, yC, size, N, maxIt);
 		trabajosRealizando = new LinkedBlockingQueue<Trabajo>();
 		trabajosRealizados = new LinkedBlockingQueue<Trabajo>();
+		clientes = new LinkedList<Thread>();
 		
 		this.puerto = puerto;
 	}
@@ -68,15 +72,17 @@ public class Servidor implements Runnable {
 					System.out.println("Recibimos:" + accion.getNombre());
 					switch(accion.getNombre()){
 						case Accion.PEDIR_TRABAJO:
-							Trabajo.enviar(s, pedirTrabajo());
+							Accion.enviar(s, new Accion(Accion.ENVIAR_TRABAJO, pedirTrabajo()));
 							break;
 						case Accion.ENVIAR_TRABAJO_TERMINADO:
+							System.out.println("Recibimos trabajo terminado");
 							entregarTrabajo(accion.getTrabajo());
 							break;
 						default:
 							throw new Exception("Accion inválida:" + accion.getNombre());
 					}
-					s.close();
+					//isr.close();
+					//s.close();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -95,8 +101,16 @@ public class Servidor implements Runnable {
 			
 			while(i++ < 10){
 				Socket s = ss.accept();
+				Thread t = new Thread(new ServidorThread(s));
+				clientes.add(t);
+				t.start();
 				System.out.println("Vamos");
 				procesarConexion(s);
+			}
+			
+			
+			for (Thread t : clientes) {
+				t.join();
 			}
 			
 			ss.close();

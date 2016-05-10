@@ -41,17 +41,6 @@ public class Trabajo implements Serializable {
 		this.matriz[saveY][saveX] = value;
 	}
 	
-	public static void enviar(Socket s, Trabajo t) throws IOException{
-		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
-		oos.writeObject(t);
-	}
-	
-	public static Trabajo pedir(Socket s) throws IOException, ClassNotFoundException {
-		Accion pedir_trabajo = new Accion(Accion.PEDIR_TRABAJO);
-		(new ObjectOutputStream(s.getOutputStream())).writeObject(pedir_trabajo);
-		ObjectInputStream isr = new ObjectInputStream(s.getInputStream());
-		return (Trabajo) isr.readObject();
-	}
 	
 	public static Queue<Trabajo> generarCola(int divisiones, double xC, double yC, double size, int N, int maxIt) throws Exception {
 		Queue<Trabajo> cola = new LinkedBlockingQueue<Trabajo>();

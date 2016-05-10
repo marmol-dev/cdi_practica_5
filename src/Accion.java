@@ -1,4 +1,7 @@
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.net.Socket;
 
 public class Accion implements Serializable {
 	public static final String PEDIR_TRABAJO = "pedir_trabajo";
@@ -22,5 +25,11 @@ public class Accion implements Serializable {
 	
 	public Trabajo getTrabajo(){
 		return trabajo;
+	}
+	
+	public static void enviar(Socket s, Accion a) throws IOException{
+		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+		oos.writeObject(a);
+		//oos.close();
 	}
 }

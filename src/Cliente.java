@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -16,17 +18,30 @@ public class Cliente implements Runnable {
 	private void hacerTrabajo(Trabajo actual){
 		Mandelbrot.realizarTrabajo(actual);
 	}
+	
+	private Trabajo pedirTrabajo() throws IOException, ClassNotFoundException{
+		System.out.println("Cero");
+				
+		Accion.enviar(this.serverSocket, new Accion(Accion.PEDIR_TRABAJO));
+		ObjectInputStream isr = new ObjectInputStream(this.serverSocket.getInputStream());
+		Accion a = (Accion) isr.readObject();
+		Trabajo t = a.getTrabajo();
+		
+		System.out.println("Segundo");
+		
+		return t;
+	}
 
 	@Override
 	public void run() {
 		try {
 			int i = 0;
-			Trabajo trabajo = Trabajo.pedir(this.serverSocket);
+			Trabajo trabajo = this.pedirTrabajo();
 			System.out.println("Hemos pedido el trabajo");
 			while(trabajo != null){
 				hacerTrabajo(trabajo);
-				Trabajo.enviar(this.serverSocket, trabajo);
-				trabajo = Trabajo.pedir(this.serverSocket);
+				Accion.enviar(this.serverSocket, new Accion(Accion.ENVIAR_TRABAJO_TERMINADO, trabajo));
+				trabajo = this.pedirTrabajo();
 			}
 		} catch(Exception e){
 			e.printStackTrace();
