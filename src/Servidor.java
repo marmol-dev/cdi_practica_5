@@ -35,6 +35,10 @@ public class Servidor implements Runnable {
 		return trabajosPorRealizar.isEmpty() && trabajosRealizando.isEmpty();
 	}
 	
+	public synchronized boolean hayTrabajosPorRealizar(){
+		return trabajosPorRealizar.isEmpty();
+	}
+	
 	public synchronized Trabajo sacarTrabajoSinRealizar(){
 		if (trabajosPorRealizar.isEmpty()){
 			return null;
@@ -90,6 +94,8 @@ public class Servidor implements Runnable {
 				e.printStackTrace();
 			}
 		}
+		
+		System.out.println("Intentos:" + intentos + "|estan?" + estanTrabajosCompletados());
 		
 		integrarTrabajosRealizados();
 			

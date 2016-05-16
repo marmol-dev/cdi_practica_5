@@ -18,15 +18,22 @@ public class ServidorThread implements Runnable {
 	
 	public void run(){
 		int intentos = 0;
+		Trabajo t;
 		
-		while(!servidor.estanTrabajosCompletados() && intentos < 5){
+		while(servidor.hayTrabajosPorRealizar() && intentos < 5){
 			try {
 				Accion accion = (Accion) this.ois.readObject();
 				System.out.println("Recibimos:" + accion.getNombre());
 				
 				switch(accion.getNombre()){
 					case Accion.PEDIR_TRABAJO:
-						this.oos.writeObject(new Accion(Accion.ENVIAR_TRABAJO, this.servidor.sacarTrabajoSinRealizar()));
+						t = this.servidor.sacarTrabajoSinRealizar();
+						if (t == null){
+							System.out.println("El cliente pide trabajo pero ya acabamos y le decimos que finalice");
+							this.oos.writeObject(new Accion(Accion.FINALIZAR_CLIENTE));
+						} else {
+							this.oos.writeObject(new Accion(Accion.ENVIAR_TRABAJO, t));
+						}
 						break;
 					case Accion.ENVIAR_TRABAJO_TERMINADO:
 						this.servidor.anhadirTrabajoRealizado(accion.getTrabajo());
@@ -45,6 +52,8 @@ public class ServidorThread implements Runnable {
 		
 		if (intentos >= 5){
 			System.out.println("Límite de intentos de conexión con el cliente alcanzados. Finalizando thread.");
+		} else {
+			System.out.println("Finalizando thread");
 		}
 		
 		try {

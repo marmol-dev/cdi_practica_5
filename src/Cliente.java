@@ -3,10 +3,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.LinkedList;
 
 public class Cliente implements Runnable {
 	
-	public static final int NUMERO_CLIENTES = 64;
+	public static final int NUMERO_CLIENTES = 16;
 	private int id;
 	private Socket socket;
 	private ObjectOutputStream oos;
@@ -22,16 +23,6 @@ public class Cliente implements Runnable {
 	private void hacerTrabajo(Trabajo actual){
 		Mandelbrot.realizarTrabajo(actual);
 	}
-	
-	private Trabajo pedirTrabajo() throws IOException, ClassNotFoundException{
-		System.out.println("Cero");
-				
-		this.oos.writeObject(new Accion(Accion.PEDIR_TRABAJO));
-		Accion a = (Accion) this.ois.readObject();
-		Trabajo t = a.getTrabajo();
-		
-		return t;
-	}
 
 	@Override
 	public void run() {
@@ -39,23 +30,15 @@ public class Cliente implements Runnable {
 		
 		Accion accionRespuesta = null;
 		
-		try {
-			this.oos.writeObject(new Accion(Accion.PEDIR_TRABAJO));
-			accionRespuesta = (Accion) this.ois.readObject();
-		} catch (Exception e){
-			intentos++;
-			e.printStackTrace();
-		}
-		
 		do {
 			try {
-				if (accionRespuesta != null && accionRespuesta.getNombre().equals(Accion.ENVIAR_TRABAJO)){
+				this.oos.writeObject(new Accion(Accion.PEDIR_TRABAJO));
+				accionRespuesta = (Accion) this.ois.readObject();
+				
+				if (accionRespuesta.getNombre().equals(Accion.ENVIAR_TRABAJO)){
 					hacerTrabajo(accionRespuesta.getTrabajo());
 					this.oos.writeObject(new Accion(Accion.ENVIAR_TRABAJO_TERMINADO, accionRespuesta.getTrabajo()));
 				}
-				
-				this.oos.writeObject(new Accion(Accion.PEDIR_TRABAJO));
-				accionRespuesta = (Accion) this.ois.readObject();
 				
 				intentos = 0;
 			} catch (Exception e){
@@ -77,11 +60,17 @@ public class Cliente implements Runnable {
 	
 	public static void main(String[] args){
 		
+		LinkedList<Thread> threads = new LinkedList<Thread>();
+		
 		try {
-			Cliente c = new Cliente("localhost", 3000, 1);
-			Thread t = new Thread(c);
-			t.start();
-			t.join();
+			for(int i = 0; i < NUMERO_CLIENTES; i++){
+				threads.push(new Thread(new Cliente("localhost", 3000, 1)));
+				threads.getFirst().start();
+			}
+			
+			for(Thread t: threads){
+				t.join();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
