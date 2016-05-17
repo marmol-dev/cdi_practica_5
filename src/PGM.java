@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,13 +10,13 @@ public class PGM {
 		fstream = new FileWriter(dir);
 	     //we create a new BufferedWriter
 	    out = new BufferedWriter(fstream);
-		out.write("P2\n# CREATOR: XV Version 3.10a  Rev: 12/29/94\n"+width+" "+height+"\n"+maxValue+"\n");
+		out.write("P3\n"+width+" "+height+"\n"+maxValue+"\n");
 	}
 	
-	public void anhadir(int[][] content) throws IOException{		 
+	public void anhadir(Color[][] content) throws IOException{		 
 		for(int i = 0 ; i<content.length;i++)
 			for(int j = 0 ; j<content[0].length;j++){
-				out.write(content[i][j]+" ");
+				out.write(content[i][j].getRed() +" " + content[i][j].getGreen() + " " + content[i][j].getBlue() + "\t");
 			}
 	}
 	

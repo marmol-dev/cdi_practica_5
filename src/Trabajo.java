@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,7 +22,7 @@ public class Trabajo implements Serializable {
 	public int yI;
 	public int xF;
 	public int yF;
-	private int[][] matriz;
+	private Color[][] matriz;
 	int posicion;
 	public UUID id;
 	
@@ -35,7 +36,7 @@ public class Trabajo implements Serializable {
 		this.yI = yI;
 		this.xF = xF;
 		this.yF = yF;
-		matriz = new int[(int) (yF - yI)][(int) (xF - xI)];
+		matriz = new Color[(int) (yF - yI)][(int) (xF - xI)];
 		id = UUID.randomUUID();
 		this.posicion = posicion;
 	}
@@ -44,10 +45,10 @@ public class Trabajo implements Serializable {
 		return this.posicion;
 	}
 	
-	public void set(double x, double y, int value){
+	public void set(double x, double y, Color color){
 		int saveY = (int) (y - yI);
 		int saveX = (int) (x - xI);
-		this.matriz[saveY][saveX] = value;
+		this.matriz[saveY][saveX] = color;
 	}
 	
 	public int getXI(){
@@ -58,7 +59,7 @@ public class Trabajo implements Serializable {
 		return this.yI;
 	}
 	
-	public int[][] getMatriz(){
+	public Color[][] getMatriz(){
 		return this.matriz;
 	}
 	
