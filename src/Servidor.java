@@ -95,9 +95,7 @@ public class Servidor implements Runnable {
 			}
 		}
 		
-		System.out.println("Intentos:" + intentos + "|estan?" + estanTrabajosCompletados());
-		
-		integrarTrabajosRealizados();
+		if (intentos < 5) integrarTrabajosRealizados();
 			
 		try {
 			for (Thread t : clientes) {

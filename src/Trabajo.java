@@ -52,19 +52,10 @@ public class Trabajo implements Serializable {
 			throw new Exception("Número de divisiones no divide a N");
 		}
 		
-		double raiz_decimal = Math.sqrt(divisiones);
-		int raiz = (int) Math.floor(raiz_decimal);
-		
-		if (raiz_decimal != raiz){
-			throw new Exception("Divisiones no es una potencia de 2");
-		}
-		
-		int tamDivision = N / raiz;
+		int tamDivision = N / divisiones;
 				
-		for(int i = 0; i < raiz; i++){
-			for(int j = 0; j < raiz; j++){
-				cola.add(new Trabajo(xC, yC, size, N, maxIt, i*tamDivision, j*tamDivision, (i+1)*tamDivision, (j+1)*tamDivision));
-			}
+		for(int i = 0; i < N; i+= tamDivision){
+			cola.add(new Trabajo(xC, yC, size, N, maxIt, i, 0, i+tamDivision, N));
 		}
 		
 		
