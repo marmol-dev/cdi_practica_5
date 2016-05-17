@@ -22,13 +22,25 @@ public class Mandelbrot {
         int N   = trabajo.N;   // create N-by-N image
         int max = trabajo.maxIt;   // maximum number of iterations
 
-        for (int y = yI; y < yF; y++) {
-            for (int x = xI; x < xF; x++) {
-                double x0 = xc - size/2 + size*y/N;
-                double y0 = yc - size/2 + size*x/N;
-                Complex z0 = new Complex(x0, y0);
-                int gray = max - mand(z0, max);
-                trabajo.set(x, /*N-1-*/y, gray);
+        
+        for (int row = yI; row < yF; row++) {
+            for (int col = xI; col < xF; col++) {
+            	
+                double c_re = (col - xc)*4.0/N;
+                double c_im = (row - yc)*4.0/N;
+                
+                double x = 0, y = 0;
+                int iteration = 0;
+                
+                while (x*x+y*y <= 4 && iteration < max) {
+                    double x_new = x*x - y*y + c_re;
+                    y = 2*x*y + c_im;
+                    x = x_new;
+                    iteration++;
+                }
+                
+                if (iteration < max) trabajo.set(col, row, 255);
+                else trabajo.set(col, row, 0);
             }
         }
     }

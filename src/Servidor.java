@@ -1,6 +1,8 @@
 
 import java.util.Queue;
+import java.util.TreeSet;
 import java.util.UUID;
+import java.util.Vector;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -16,36 +18,35 @@ public class Servidor implements Runnable {
 	private int puerto;
 	private Queue<Trabajo> trabajosPorRealizar;
 	private Map<UUID, Trabajo> trabajosRealizando;
-	private PriorityQueue<Trabajo> trabajosRealizados;
+	private TreeSet<Trabajo> trabajosRealizados;
 	private LinkedList<Thread> clientes;
 	private ServerSocket serverSocket;
 	private boolean finalizado;
 	int nClientesFinalizados = 0;
 	int nClientesTotales = 0;
 	int N;
+	int divisiones;
 	
 	Servidor(int puerto, int divisiones, double xC, double yC, int size, int N, int maxIt) throws Exception {
 		this.N = N;
+		
 		trabajosPorRealizar = Trabajo.generarCola(divisiones, xC, yC, size, N, maxIt);
 		trabajosRealizando = new HashMap<UUID, Trabajo>();
 		
-		Comparator<Trabajo> comparator = new Comparator<Trabajo>() {
+		Comparator<Trabajo> comparador = new Comparator<Trabajo>(){
 			public int compare(Trabajo t1, Trabajo t2){
-				if (t1.getXI() < t2.getXI()){
-					return -1;
-				} else if (t1.getXI() == t2.getXI()){
-					return 0;
-				} else {
-					return 1;
-				}
-					
+				return t1.getPosicion() < t2.getPosicion() ? -1 :
+					(t1.getPosicion() == t2.getPosicion() ? 0 :
+						1);
 			}
 		};
 		
-		trabajosRealizados = new PriorityQueue<Trabajo>(comparator);
+		trabajosRealizados = new TreeSet<Trabajo>(comparador);
+		
 		clientes = new LinkedList<Thread>();
 		
 		this.puerto = puerto;
+		this.divisiones = divisiones;
 		
 		this.serverSocket = new ServerSocket(this.puerto);
 		this.finalizado = false;
@@ -81,19 +82,19 @@ public class Servidor implements Runnable {
 		}
 	}
 	
-	private synchronized void  integrarTrabajosRealizados() throws IOException {
+	private synchronized void  integrarTrabajosRealizados() throws Exception {
 		PGM imagen = new PGM("imagen.pgm", this.N, this.N, 255);
-		for(Trabajo t: trabajosRealizados){
-			System.out.println("Trabajo");
+		
+		for (Trabajo t: trabajosRealizados){
 			imagen.anhadir(t.getMatriz());
 		}
+		
 		imagen.cerrar();
 	}
 	
-	public synchronized void finalizar() throws UnknownHostException, IOException{
+	public synchronized void finalizar() throws UnknownHostException, IOException {
 		nClientesFinalizados++;
 		if (nClientesFinalizados == nClientesTotales){
-			System.out.println("Acabamos:" + nClientesFinalizados);
 			finalizado = true;
 			this.serverSocket.close();
 		}
@@ -134,7 +135,7 @@ public class Servidor implements Runnable {
 		if (intentos < 5) {
 			try {
 				integrarTrabajosRealizados();
-			} catch (IOException e){
+			} catch (Exception e){
 				System.out.println("Se ha producido un error al integrar los trabajos realizados:");
 				e.printStackTrace();
 			}
@@ -152,7 +153,7 @@ public class Servidor implements Runnable {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		Servidor serv = new Servidor(3000, Cliente.NUMERO_CLIENTES * 1, 0, 0, 512, 512, 512);
+		Servidor serv = new Servidor(3000, Cliente.NUMERO_CLIENTES * 1, 512, 512, 1024, 1024, 512);
 		Thread serverThread = new Thread(serv);
 		serverThread.start();
 		

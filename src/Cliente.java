@@ -65,7 +65,7 @@ public class Cliente implements Runnable {
 		
 		try {
 			for(int i = 0; i < NUMERO_CLIENTES; i++){
-				threads.push(new Thread(new Cliente("localhost", 3000, 1)));
+				threads.push(new Thread(new Cliente("localhost", 3000, i)));
 				threads.getFirst().start();
 			}
 			

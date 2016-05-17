@@ -22,9 +22,10 @@ public class Trabajo implements Serializable {
 	public int xF;
 	public int yF;
 	private int[][] matriz;
+	int posicion;
 	public UUID id;
 	
-	Trabajo(double xC, double yC, double size, int N, int maxIt, int xI, int yI, int xF, int yF){
+	Trabajo(double xC, double yC, double size, int N, int maxIt, int xI, int yI, int xF, int yF, int posicion){
 		this.xC = xC;
 		this.yC = yC;
 		this.size = size;
@@ -36,6 +37,11 @@ public class Trabajo implements Serializable {
 		this.yF = yF;
 		matriz = new int[(int) (yF - yI)][(int) (xF - xI)];
 		id = UUID.randomUUID();
+		this.posicion = posicion;
+	}
+	
+	public int getPosicion(){
+		return this.posicion;
 	}
 	
 	public void set(double x, double y, int value){
@@ -46,6 +52,10 @@ public class Trabajo implements Serializable {
 	
 	public int getXI(){
 		return this.xI;
+	}
+	
+	public int getYI(){
+		return this.yI;
 	}
 	
 	public int[][] getMatriz(){
@@ -61,9 +71,11 @@ public class Trabajo implements Serializable {
 		}
 		
 		int tamDivision = N / divisiones;
+		int cnt = 0;
 				
 		for(int i = 0; i < N; i+= tamDivision){
-			cola.add(new Trabajo(xC, yC, size, N, maxIt, i, 0, i+tamDivision, N));
+			cola.add(new Trabajo(xC, yC, size, N, maxIt, 0, i, N, i+tamDivision, cnt));
+			cnt++;
 		}
 		
 		
