@@ -44,6 +44,14 @@ public class Trabajo implements Serializable {
 		this.matriz[saveY][saveX] = value;
 	}
 	
+	public int getXI(){
+		return this.xI;
+	}
+	
+	public int[][] getMatriz(){
+		return this.matriz;
+	}
+	
 	
 	public static Queue<Trabajo> generarCola(int divisiones, double xC, double yC, double size, int N, int maxIt) throws Exception {
 		Queue<Trabajo> cola = new LinkedBlockingQueue<Trabajo>();

@@ -20,7 +20,9 @@ public class ServidorThread implements Runnable {
 		int intentos = 0;
 		Trabajo t;
 		
-		while(servidor.hayTrabajosPorRealizar() && intentos < 5){
+		boolean finalizado = false;
+		
+		while(!finalizado && intentos < 5){
 			try {
 				Accion accion = (Accion) this.ois.readObject();
 				System.out.println("Recibimos:" + accion.getNombre());
@@ -29,8 +31,8 @@ public class ServidorThread implements Runnable {
 					case Accion.PEDIR_TRABAJO:
 						t = this.servidor.sacarTrabajoSinRealizar();
 						if (t == null){
-							System.out.println("El cliente pide trabajo pero ya acabamos y le decimos que finalice");
 							this.oos.writeObject(new Accion(Accion.FINALIZAR_CLIENTE));
+							finalizado=true;
 						} else {
 							this.oos.writeObject(new Accion(Accion.ENVIAR_TRABAJO, t));
 						}
@@ -55,14 +57,7 @@ public class ServidorThread implements Runnable {
 		} else {
 			System.out.println("Finalizando thread");
 		}
-		
-		try {
-			this.ois.readObject();
-			this.oos.writeObject(new Accion(Accion.FINALIZAR_CLIENTE));
-		} catch (Exception e){
-			e.printStackTrace();
-		}
-		
+
 		try {
 			this.ois.close();
 			this.oos.close();

@@ -36,6 +36,7 @@ public class Cliente implements Runnable {
 				accionRespuesta = (Accion) this.ois.readObject();
 				
 				if (accionRespuesta.getNombre().equals(Accion.ENVIAR_TRABAJO)){
+					System.out.println("Hemos recibido trabajo");
 					hacerTrabajo(accionRespuesta.getTrabajo());
 					this.oos.writeObject(new Accion(Accion.ENVIAR_TRABAJO_TERMINADO, accionRespuesta.getTrabajo()));
 				}
