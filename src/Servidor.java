@@ -26,9 +26,11 @@ public class Servidor implements Runnable {
 	int nClientesTotales = 0;
 	int N;
 	int divisiones;
+	String dir;
 	
-	Servidor(int puerto, int divisiones, double xC, double yC, int size, int N, int maxIt) throws Exception {
+	Servidor(int puerto, int divisiones, double xC, double yC, int size, int N, int maxIt, String dir) throws Exception {
 		this.N = N;
+		this.dir = dir;
 		
 		trabajosPorRealizar = Trabajo.generarCola(divisiones, xC, yC, size, N, maxIt);
 		trabajosRealizando = new HashMap<UUID, Trabajo>();
@@ -83,7 +85,7 @@ public class Servidor implements Runnable {
 	}
 	
 	private synchronized void  integrarTrabajosRealizados() throws Exception {
-		PGM imagen = new PGM("imagen.pgm", this.N, this.N, 255);
+		PGM imagen = new PGM(dir, this.N, this.N, 255);
 		
 		for (Trabajo t: trabajosRealizados){
 			imagen.anhadir(t.getMatriz());
@@ -153,13 +155,32 @@ public class Servidor implements Runnable {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		Servidor serv = new Servidor(3000, Cliente.NUMERO_CLIENTES * 1, 512, 512, 1024, 1024, 512);
-		Thread serverThread = new Thread(serv);
-		serverThread.start();
+		
 		
 		try {
-			serverThread.join();
-		} catch (InterruptedException e) {
+			if (args.length < 7){
+				throw new RuntimeException("Argumentos: puerto divisiones xCentro yCentro tamaño iteraciones archivo");
+			}
+			
+			int puerto = Integer.parseInt(args[0]);
+			int divisiones = Integer.parseInt(args[1]);
+			double xCentro = Double.parseDouble(args[2]);
+			double yCentro = Double.parseDouble(args[3]);
+			int size = Integer.parseInt(args[4]);
+			int maxIt = Integer.parseInt(args[5]);
+			String dir = args[6];
+			
+			Servidor serv = new Servidor(puerto, divisiones, xCentro, yCentro, size, size, maxIt, dir);
+			
+			Thread serverThread = new Thread(serv);
+			serverThread.start();
+			
+			try {
+				serverThread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		} catch (Exception e){
 			e.printStackTrace();
 		}
 		
