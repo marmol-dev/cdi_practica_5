@@ -61,22 +61,44 @@ public class Cliente implements Runnable {
 	
 	public static void main(String[] args){
 		
-		LinkedList<Thread> threads = new LinkedList<Thread>();
-		
 		try {
-			for(int i = 0; i < NUMERO_CLIENTES; i++){
-				threads.push(new Thread(new Cliente("localhost", 3000, i)));
-				threads.getFirst().start();
+			if (args.length < 2){
+				throw new RuntimeException("Argumentos: hostname puerto [nClientes]");
 			}
 			
-			for(Thread t: threads){
-				t.join();
+			String hostname = args[0];
+			int port = Integer.parseInt(args[1]);
+			int nClientes = -1;
+			
+			if (args.length > 2){
+				try {
+					nClientes = Integer.parseInt(args[2]);
+				} catch (Exception e){}
 			}
-		} catch (Exception e) {
+			
+			if (nClientes < 1){
+				nClientes = NUMERO_CLIENTES;
+			}
+			
+			LinkedList<Thread> threads = new LinkedList<Thread>();
+			
+			try {
+				for(int i = 0; i < nClientes; i++){
+					threads.push(new Thread(new Cliente(hostname, port, i)));
+					threads.getFirst().start();
+				}
+				
+				for(Thread t: threads){
+					t.join();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} catch (Exception e){
 			e.printStackTrace();
 		}
 		
-		System.out.println("Programa finalizado");
+		System.out.println("Programa cliente finalizado");
 	}
 
 }
