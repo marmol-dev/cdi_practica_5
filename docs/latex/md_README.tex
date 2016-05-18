@@ -1,0 +1,63 @@
+\begin{quote}
+Martín Molina Álvarez \end{quote}
+
+
+\begin{quote}
+Víctor Malvárez Filgueira \end{quote}
+
+
+\subsection*{Modo de empleo}
+
+
+\begin{DoxyEnumerate}
+\item Compilar los {\ttfamily .java}.
+\item Ir al directorio donde están los {\ttfamily .class}.
+\item Abrir el \hyperlink{classServidor}{Servidor} con los argumentos necesarios\+:
+\begin{DoxyItemize}
+\item puerto
+\item divisiones
+\item x\+Centro
+\item y\+Centro
+\item tamaño
+\item iteraciones
+\item archivo
+\end{DoxyItemize}
+\item Ejemplo\+: {\ttfamily java \hyperlink{classServidor}{Servidor} 3000 16 512 512 1024 512 imagen.\+pgm}
+\item Abrir los clientes\+: {\ttfamily java \hyperlink{classCliente}{Cliente} ...} Los argumentos son\+:
+\begin{DoxyItemize}
+\item hostname\+: la dirección del servidor
+\item puerto
+\item n\+Clientes\+: Opcional.
+\end{DoxyItemize}
+\item Ejemplo\+: {\ttfamily java \hyperlink{classCliente}{Cliente} localhost 3000 16}
+\end{DoxyEnumerate}
+
+\subsection*{Arquitectura}
+
+\subsubsection*{\hyperlink{classServidor}{Servidor}}
+
+Clase principal del servidor que se encarga de abrir las conexiones con los clientes y de gestionar el proceso de organización y control de las colas.
+
+\subsubsection*{\hyperlink{classServidorThread}{Servidor\+Thread}}
+
+Clase cuyas instancias son creadas cada vez que se conecta un nueco cliente. Gestiona y controla una conexión individual con un cliente.
+
+\subsubsection*{\hyperlink{classCliente}{Cliente}}
+
+Clase cuyas instancias son creadas una vez que se ha abierto el servidor. Hacen las llamadas al algoritmo de \hyperlink{classMandelbrot}{Mandelbrot}.
+
+\subsubsection*{\hyperlink{classTrabajo}{Trabajo}}
+
+Clase que contiene los atributos necesarios para procesar una región de la imagen del \hyperlink{classMandelbrot}{Mandelbrot}.
+
+\subsubsection*{Acción}
+
+Clase vehicular para comunicarse entre \hyperlink{classCliente}{Cliente} y \hyperlink{classServidor}{Servidor}.
+
+\subsubsection*{\hyperlink{classMandelbrot}{Mandelbrot}}
+
+Clase cuyo método implementa el algoritmo de \hyperlink{classMandelbrot}{Mandelbrot}.
+
+\subsubsection*{\hyperlink{classPGM}{P\+GM}}
+
+Clase que se encarga de la creación de imágenes con el mismo formato que el nombre de la clase y escribe matrices de colores en formato R\+GB. 

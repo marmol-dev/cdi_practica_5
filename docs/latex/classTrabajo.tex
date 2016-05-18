@@ -1,0 +1,220 @@
+\hypertarget{classTrabajo}{}\section{Trabajo Class Reference}
+\label{classTrabajo}\index{Trabajo@{Trabajo}}
+
+
+Contiene los argumentos necesarios para procesar el conjunto de \hyperlink{classMandelbrot}{Mandelbrot} y ofrece una estructura para guardar los resultados.  
+
+
+Inheritance diagram for Trabajo\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classTrabajo}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classTrabajo_af9f14641f1998f17ae95631a8cc6859d}{get\+Posicion} ()
+\begin{DoxyCompactList}\small\item\em Obtiene la posición de la zona en la imagen final. \end{DoxyCompactList}\item 
+void \hyperlink{classTrabajo_ac32572a4925d6749fc46d18a056f1529}{set} (double x, double y, Color color)
+\begin{DoxyCompactList}\small\item\em Establece un color de un píxel. \end{DoxyCompactList}\item 
+int \hyperlink{classTrabajo_a0fe8005e31fc4e71e66fcf8cad67dc6a}{get\+XI} ()
+\begin{DoxyCompactList}\small\item\em Obtiene la coordenada X del punto inicial. \end{DoxyCompactList}\item 
+int \hyperlink{classTrabajo_a9b0bbf4c170c64b9e4af5444441f5487}{get\+YI} ()
+\begin{DoxyCompactList}\small\item\em Obtiene la coordenada y del punto inicial. \end{DoxyCompactList}\item 
+Color\mbox{[}$\,$\mbox{]}\mbox{[}$\,$\mbox{]} \hyperlink{classTrabajo_a5f807db0cb4016a3deffea7bb3b387c4}{get\+Matriz} ()
+\begin{DoxyCompactList}\small\item\em Obtiene la matriz de colores. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Queue$<$ \hyperlink{classTrabajo}{Trabajo} $>$ \hyperlink{classTrabajo_a8591ebadea7e23ebe0790248d7991bec}{generar\+Cola} (int divisiones, double \hyperlink{classTrabajo_a8bef34fe0280b261439379d534321219}{xC}, double \hyperlink{classTrabajo_ab12a7045e2dbd243910e3d3b2f6961c9}{yC}, double \hyperlink{classTrabajo_af0d73a9cfef4f2d5268679cad9fa6fbc}{size}, int \hyperlink{classTrabajo_ac1b2b6bc4d1dd40b31f5faaf8c865577}{N}, int \hyperlink{classTrabajo_ac00b80469dd47378feefbedacfb199d9}{max\+It})  throws Exception 
+\begin{DoxyCompactList}\small\item\em Genera una cola de trabajos en base a los argumentos. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{classTrabajo_a8bef34fe0280b261439379d534321219}{xC}
+\item 
+double \hyperlink{classTrabajo_ab12a7045e2dbd243910e3d3b2f6961c9}{yC}
+\item 
+double \hyperlink{classTrabajo_af0d73a9cfef4f2d5268679cad9fa6fbc}{size}
+\item 
+int \hyperlink{classTrabajo_ac1b2b6bc4d1dd40b31f5faaf8c865577}{N}
+\item 
+int \hyperlink{classTrabajo_ac00b80469dd47378feefbedacfb199d9}{max\+It}
+\item 
+int \hyperlink{classTrabajo_a92e061e1e5acd2e5e771cb45a0ead2cf}{xI}
+\item 
+int \hyperlink{classTrabajo_ad2ebae404264d7c3e804dc126ecaaa96}{yI}
+\item 
+int \hyperlink{classTrabajo_abb0a6c97b22bc6151702b75c77ec3918}{xF}
+\item 
+int \hyperlink{classTrabajo_afef4f766ca0c979b9bd99a6b951314e9}{yF}
+\item 
+U\+U\+ID \hyperlink{classTrabajo_a6c0a2cc23650abac92831074e8bcf9e3}{id}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Contiene los argumentos necesarios para procesar el conjunto de \hyperlink{classMandelbrot}{Mandelbrot} y ofrece una estructura para guardar los resultados. 
+
+\begin{DoxyAuthor}{Author}
+marmol 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\index{Trabajo@{Trabajo}!generar\+Cola@{generar\+Cola}}
+\index{generar\+Cola@{generar\+Cola}!Trabajo@{Trabajo}}
+\subsubsection[{\texorpdfstring{generar\+Cola(int divisiones, double x\+C, double y\+C, double size, int N, int max\+It)}{generarCola(int divisiones, double xC, double yC, double size, int N, int maxIt)}}]{\setlength{\rightskip}{0pt plus 5cm}static Queue$<${\bf Trabajo}$>$ Trabajo.\+generar\+Cola (
+\begin{DoxyParamCaption}
+\item[{int}]{divisiones, }
+\item[{double}]{xC, }
+\item[{double}]{yC, }
+\item[{double}]{size, }
+\item[{int}]{N, }
+\item[{int}]{max\+It}
+\end{DoxyParamCaption}
+) throws Exception\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classTrabajo_a8591ebadea7e23ebe0790248d7991bec}{}\label{classTrabajo_a8591ebadea7e23ebe0790248d7991bec}
+
+
+Genera una cola de trabajos en base a los argumentos. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em divisiones} & Divisiones de la imagen \\
+\hline
+{\em xC} & Coordenada x del punto central \\
+\hline
+{\em yC} & Coordenada y del punto central \\
+\hline
+{\em size} & Tamaño de la imagen \\
+\hline
+{\em N} & Tamaño de la imagen \\
+\hline
+{\em max\+It} & Número máximo de iteraciones en el procesado del conjunto de \hyperlink{classMandelbrot}{Mandelbrot} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & \\
+\hline
+\end{DoxyExceptions}
+\index{Trabajo@{Trabajo}!get\+Matriz@{get\+Matriz}}
+\index{get\+Matriz@{get\+Matriz}!Trabajo@{Trabajo}}
+\subsubsection[{\texorpdfstring{get\+Matriz()}{getMatriz()}}]{\setlength{\rightskip}{0pt plus 5cm}Color \mbox{[}$\,$\mbox{]}\mbox{[}$\,$\mbox{]} Trabajo.\+get\+Matriz (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classTrabajo_a5f807db0cb4016a3deffea7bb3b387c4}{}\label{classTrabajo_a5f807db0cb4016a3deffea7bb3b387c4}
+
+
+Obtiene la matriz de colores. 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\index{Trabajo@{Trabajo}!get\+Posicion@{get\+Posicion}}
+\index{get\+Posicion@{get\+Posicion}!Trabajo@{Trabajo}}
+\subsubsection[{\texorpdfstring{get\+Posicion()}{getPosicion()}}]{\setlength{\rightskip}{0pt plus 5cm}int Trabajo.\+get\+Posicion (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classTrabajo_af9f14641f1998f17ae95631a8cc6859d}{}\label{classTrabajo_af9f14641f1998f17ae95631a8cc6859d}
+
+
+Obtiene la posición de la zona en la imagen final. 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\index{Trabajo@{Trabajo}!get\+XI@{get\+XI}}
+\index{get\+XI@{get\+XI}!Trabajo@{Trabajo}}
+\subsubsection[{\texorpdfstring{get\+X\+I()}{getXI()}}]{\setlength{\rightskip}{0pt plus 5cm}int Trabajo.\+get\+XI (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classTrabajo_a0fe8005e31fc4e71e66fcf8cad67dc6a}{}\label{classTrabajo_a0fe8005e31fc4e71e66fcf8cad67dc6a}
+
+
+Obtiene la coordenada X del punto inicial. 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\index{Trabajo@{Trabajo}!get\+YI@{get\+YI}}
+\index{get\+YI@{get\+YI}!Trabajo@{Trabajo}}
+\subsubsection[{\texorpdfstring{get\+Y\+I()}{getYI()}}]{\setlength{\rightskip}{0pt plus 5cm}int Trabajo.\+get\+YI (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classTrabajo_a9b0bbf4c170c64b9e4af5444441f5487}{}\label{classTrabajo_a9b0bbf4c170c64b9e4af5444441f5487}
+
+
+Obtiene la coordenada y del punto inicial. 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\index{Trabajo@{Trabajo}!set@{set}}
+\index{set@{set}!Trabajo@{Trabajo}}
+\subsubsection[{\texorpdfstring{set(double x, double y, Color color)}{set(double x, double y, Color color)}}]{\setlength{\rightskip}{0pt plus 5cm}void Trabajo.\+set (
+\begin{DoxyParamCaption}
+\item[{double}]{x, }
+\item[{double}]{y, }
+\item[{Color}]{color}
+\end{DoxyParamCaption}
+)}\hypertarget{classTrabajo_ac32572a4925d6749fc46d18a056f1529}{}\label{classTrabajo_ac32572a4925d6749fc46d18a056f1529}
+
+
+Establece un color de un píxel. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & \\
+\hline
+{\em y} & \\
+\hline
+{\em color} & \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\index{Trabajo@{Trabajo}!id@{id}}
+\index{id@{id}!Trabajo@{Trabajo}}
+\subsubsection[{\texorpdfstring{id}{id}}]{\setlength{\rightskip}{0pt plus 5cm}U\+U\+ID Trabajo.\+id}\hypertarget{classTrabajo_a6c0a2cc23650abac92831074e8bcf9e3}{}\label{classTrabajo_a6c0a2cc23650abac92831074e8bcf9e3}
+\index{Trabajo@{Trabajo}!max\+It@{max\+It}}
+\index{max\+It@{max\+It}!Trabajo@{Trabajo}}
+\subsubsection[{\texorpdfstring{max\+It}{maxIt}}]{\setlength{\rightskip}{0pt plus 5cm}int Trabajo.\+max\+It}\hypertarget{classTrabajo_ac00b80469dd47378feefbedacfb199d9}{}\label{classTrabajo_ac00b80469dd47378feefbedacfb199d9}
+\index{Trabajo@{Trabajo}!N@{N}}
+\index{N@{N}!Trabajo@{Trabajo}}
+\subsubsection[{\texorpdfstring{N}{N}}]{\setlength{\rightskip}{0pt plus 5cm}int Trabajo.\+N}\hypertarget{classTrabajo_ac1b2b6bc4d1dd40b31f5faaf8c865577}{}\label{classTrabajo_ac1b2b6bc4d1dd40b31f5faaf8c865577}
+\index{Trabajo@{Trabajo}!size@{size}}
+\index{size@{size}!Trabajo@{Trabajo}}
+\subsubsection[{\texorpdfstring{size}{size}}]{\setlength{\rightskip}{0pt plus 5cm}double Trabajo.\+size}\hypertarget{classTrabajo_af0d73a9cfef4f2d5268679cad9fa6fbc}{}\label{classTrabajo_af0d73a9cfef4f2d5268679cad9fa6fbc}
+\index{Trabajo@{Trabajo}!xC@{xC}}
+\index{xC@{xC}!Trabajo@{Trabajo}}
+\subsubsection[{\texorpdfstring{xC}{xC}}]{\setlength{\rightskip}{0pt plus 5cm}double Trabajo.\+xC}\hypertarget{classTrabajo_a8bef34fe0280b261439379d534321219}{}\label{classTrabajo_a8bef34fe0280b261439379d534321219}
+\index{Trabajo@{Trabajo}!xF@{xF}}
+\index{xF@{xF}!Trabajo@{Trabajo}}
+\subsubsection[{\texorpdfstring{xF}{xF}}]{\setlength{\rightskip}{0pt plus 5cm}int Trabajo.\+xF}\hypertarget{classTrabajo_abb0a6c97b22bc6151702b75c77ec3918}{}\label{classTrabajo_abb0a6c97b22bc6151702b75c77ec3918}
+\index{Trabajo@{Trabajo}!xI@{xI}}
+\index{xI@{xI}!Trabajo@{Trabajo}}
+\subsubsection[{\texorpdfstring{xI}{xI}}]{\setlength{\rightskip}{0pt plus 5cm}int Trabajo.\+xI}\hypertarget{classTrabajo_a92e061e1e5acd2e5e771cb45a0ead2cf}{}\label{classTrabajo_a92e061e1e5acd2e5e771cb45a0ead2cf}
+\index{Trabajo@{Trabajo}!yC@{yC}}
+\index{yC@{yC}!Trabajo@{Trabajo}}
+\subsubsection[{\texorpdfstring{yC}{yC}}]{\setlength{\rightskip}{0pt plus 5cm}double Trabajo.\+yC}\hypertarget{classTrabajo_ab12a7045e2dbd243910e3d3b2f6961c9}{}\label{classTrabajo_ab12a7045e2dbd243910e3d3b2f6961c9}
+\index{Trabajo@{Trabajo}!yF@{yF}}
+\index{yF@{yF}!Trabajo@{Trabajo}}
+\subsubsection[{\texorpdfstring{yF}{yF}}]{\setlength{\rightskip}{0pt plus 5cm}int Trabajo.\+yF}\hypertarget{classTrabajo_afef4f766ca0c979b9bd99a6b951314e9}{}\label{classTrabajo_afef4f766ca0c979b9bd99a6b951314e9}
+\index{Trabajo@{Trabajo}!yI@{yI}}
+\index{yI@{yI}!Trabajo@{Trabajo}}
+\subsubsection[{\texorpdfstring{yI}{yI}}]{\setlength{\rightskip}{0pt plus 5cm}int Trabajo.\+yI}\hypertarget{classTrabajo_ad2ebae404264d7c3e804dc126ecaaa96}{}\label{classTrabajo_ad2ebae404264d7c3e804dc126ecaaa96}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{Trabajo_8java}{Trabajo.\+java}\end{DoxyCompactItemize}

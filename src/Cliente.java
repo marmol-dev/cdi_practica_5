@@ -5,6 +5,11 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.LinkedList;
 
+/**
+ * Implementa la conexión individual con el Servidor y realiza las acciones oportunas con los objetos Trabajo
+ * @author marmol
+ *
+ */
 public class Cliente implements Runnable {
 	
 	public static final int NUMERO_CLIENTES = 16;
@@ -13,6 +18,14 @@ public class Cliente implements Runnable {
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
 	
+	/**
+	 * Constructor
+	 * @param host El nombre del host servidor (o Ip)
+	 * @param puerto El puerto del servidor
+	 * @param id Un identificador único para el cliente
+	 * @throws UnknownHostException
+	 * @throws IOException
+	 */
 	Cliente(String host, int puerto, int id) throws UnknownHostException, IOException {
 		this.socket = new Socket(host, puerto);
 		this.oos = new ObjectOutputStream(this.socket.getOutputStream());
@@ -20,11 +33,19 @@ public class Cliente implements Runnable {
 		this.id = id;
 	}
 	
+	/**
+	 * Realiza un trabajo
+	 * Procesa el conjunto de Mandelbrot
+	 * @param actual El trabajo que se quiere realizar
+	 */
 	private void hacerTrabajo(Trabajo actual){
 		Mandelbrot.realizarTrabajo(actual);
 	}
 
 	@Override
+	/**
+	 * Códigod el Thread
+	 */
 	public void run() {
 		int intentos = 0;
 		
@@ -68,6 +89,11 @@ public class Cliente implements Runnable {
 		System.out.println("Cliente " + id + " finalizado");
 	}
 	
+	/**
+	 * Programa principal de los clientes
+	 * Crea tantos clientes como se especifique y se conectan al servidor
+	 * @param args Un vector con: hostname puerto [nClientes]
+	 */
 	public static void main(String[] args){
 		
 		try {

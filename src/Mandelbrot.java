@@ -1,31 +1,16 @@
 import java.awt.Color;
 
+/**
+ * Implementa el método necesario para crear un conjunto de Mandelbrot
+ * @author marmol
+ *
+ */
 public class Mandelbrot {
     
-    public static int[] hsvToRgb(float hue, float saturation, float value) {
-    	
-        int h = (int)(hue * 6);
-        float f = hue * 6 - h;
-        float p = value * (1 - saturation);
-        float q = value * (1 - f * saturation);
-        float t = value * (1 - (1 - f) * saturation);
-
-        switch (h) {
-          case 0: return rgbToArray(value, t, p);
-          case 1: return rgbToArray(q, value, p);
-          case 2: return rgbToArray(p, value, t);
-          case 3: return rgbToArray(p, q, value);
-          case 4: return rgbToArray(t, p, value);
-          case 5: return rgbToArray(value, p, q);
-          default: throw new RuntimeException("Something went wrong when converting from HSV to RGB. Input was " + hue + ", " + saturation + ", " + value);
-        }
-    }
-    
-    private static int[] rgbToArray(float a, float b, float c){
-    	int[] toret = {(int) a,(int) b, (int) c};
-    	return toret;
-    }
-
+	/**
+	 * Procesa un conjunto de Mandelbrot en base a unos argumentos recibidos en un Trabajo
+	 * @param trabajo Contiene los argumentos necesarios para procesar el conjunto de Mandelbrot. Provee de una estructura para guardar los cambios.
+	 */
     public static void realizarTrabajo(Trabajo trabajo)  {
         double xc   = trabajo.xC;
         double yc   = trabajo.yC;

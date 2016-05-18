@@ -3,12 +3,23 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+/**
+ * Clase que se encarga de gestionar individualmente cada conexión con el cliente en el servidor
+ * @author marmol
+ *
+ */
 public class ServidorThread implements Runnable {
 	private Socket socket;
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
 	private Servidor servidor;
 	
+	/**
+	 * Constructor
+	 * @param s Socket del cliente
+	 * @param serv Objeto del servidor
+	 * @throws IOException
+	 */
 	ServidorThread(Socket s, Servidor serv) throws IOException{
 		this.socket = s;
 		this.oos = new ObjectOutputStream(s.getOutputStream());
@@ -16,6 +27,9 @@ public class ServidorThread implements Runnable {
 		this.servidor = serv;
 	}
 	
+	/**
+	 * Código del Thread que gestiona la conexión con el cliente
+	 */
 	public void run(){
 		int intentos = 0;
 		Trabajo t;

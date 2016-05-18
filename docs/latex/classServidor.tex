@@ -1,0 +1,201 @@
+\hypertarget{classServidor}{}\section{Servidor Class Reference}
+\label{classServidor}\index{Servidor@{Servidor}}
+
+
+Implementa la clase \hyperlink{classServidor}{Servidor} que gestiona todas las conexiones y los trabajos.  
+
+
+Inheritance diagram for Servidor\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classServidor}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+synchronized boolean \hyperlink{classServidor_a210f62b0f4ccd1d3eccc6eff7051d640}{estan\+Trabajos\+Completados} ()
+\begin{DoxyCompactList}\small\item\em Comprueba si los trabajos estan completados. \end{DoxyCompactList}\item 
+synchronized boolean \hyperlink{classServidor_ad2d3e79eeac3e52edcec0c4ef17ffce6}{hay\+Trabajos\+Por\+Realizar} ()
+\begin{DoxyCompactList}\small\item\em Comprueba si hay trabajos por realizar. \end{DoxyCompactList}\item 
+synchronized \hyperlink{classTrabajo}{Trabajo} \hyperlink{classServidor_a1afa144ebeacbf0e9960ab8b5a1d3419}{sacar\+Trabajo\+Sin\+Realizar} ()
+\begin{DoxyCompactList}\small\item\em Saca un trabajo sin realizar, lo mete en realizando y devuelve el \hyperlink{classTrabajo}{Trabajo}. \end{DoxyCompactList}\item 
+synchronized void \hyperlink{classServidor_a94e88d197276e470cb7373b8ca3ae847}{anhadir\+Trabajo\+Realizado} (\hyperlink{classTrabajo}{Trabajo} t)  throws Exception 
+\begin{DoxyCompactList}\small\item\em Añade un trabajo que estaba siendo realizado y ahora esa completado (procesado) por un \hyperlink{classCliente}{Cliente}. \end{DoxyCompactList}\item 
+synchronized void \hyperlink{classServidor_a15c19b2947826047e0664915f86a16d8}{devolver\+Trabajo\+Realizando} (\hyperlink{classTrabajo}{Trabajo} t)
+\begin{DoxyCompactList}\small\item\em Devuelve un trabajo que estaba siendo realizado pero que no pudo ser completado (error en \hyperlink{classCliente}{Cliente}) \end{DoxyCompactList}\item 
+void \hyperlink{classServidor_adc224162ae15224464bf33d0f6bf79e9}{esperar\+Cambios\+Trabajos\+Realizando} ()
+\begin{DoxyCompactList}\small\item\em Duerme un proceso hasta que se produzcan cambios los trabajos que se están realizando. \end{DoxyCompactList}\item 
+void \hyperlink{classServidor_a7dcc9a8eaf0ab0e7eedd0fb41c03849c}{notificar\+Cambios\+Trabajos\+Realizando} ()
+\begin{DoxyCompactList}\small\item\em Notifica que se han producido cambios en los trabajos que se están realizando. \end{DoxyCompactList}\item 
+synchronized void \hyperlink{classServidor_a6dda49cac122c1933278bae21641bff4}{finalizar} ()  throws Unknown\+Host\+Exception, I\+O\+Exception 
+\begin{DoxyCompactList}\small\item\em Notifica que todos los trabajos se finalizaron. \end{DoxyCompactList}\item 
+void \hyperlink{classServidor_a24622869d200039d3e0df70b6e29eb9e}{run} ()
+\begin{DoxyCompactList}\small\item\em Gestiona las conexiones entrantes no se acaben los trabajos. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classServidor_a4f1d3d541947003e9c4db0b0ad40bd1d}{main} (String\mbox{[}$\,$\mbox{]} args)
+\begin{DoxyCompactList}\small\item\em Programa \hyperlink{classServidor}{Servidor} principal. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implementa la clase \hyperlink{classServidor}{Servidor} que gestiona todas las conexiones y los trabajos. 
+
+\begin{DoxyAuthor}{Author}
+marmol 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\index{Servidor@{Servidor}!anhadir\+Trabajo\+Realizado@{anhadir\+Trabajo\+Realizado}}
+\index{anhadir\+Trabajo\+Realizado@{anhadir\+Trabajo\+Realizado}!Servidor@{Servidor}}
+\subsubsection[{\texorpdfstring{anhadir\+Trabajo\+Realizado(\+Trabajo t)}{anhadirTrabajoRealizado(Trabajo t)}}]{\setlength{\rightskip}{0pt plus 5cm}synchronized void Servidor.\+anhadir\+Trabajo\+Realizado (
+\begin{DoxyParamCaption}
+\item[{{\bf Trabajo}}]{t}
+\end{DoxyParamCaption}
+) throws Exception}\hypertarget{classServidor_a94e88d197276e470cb7373b8ca3ae847}{}\label{classServidor_a94e88d197276e470cb7373b8ca3ae847}
+
+
+Añade un trabajo que estaba siendo realizado y ahora esa completado (procesado) por un \hyperlink{classCliente}{Cliente}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em t} & El trabajo \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & \\
+\hline
+\end{DoxyExceptions}
+\index{Servidor@{Servidor}!devolver\+Trabajo\+Realizando@{devolver\+Trabajo\+Realizando}}
+\index{devolver\+Trabajo\+Realizando@{devolver\+Trabajo\+Realizando}!Servidor@{Servidor}}
+\subsubsection[{\texorpdfstring{devolver\+Trabajo\+Realizando(\+Trabajo t)}{devolverTrabajoRealizando(Trabajo t)}}]{\setlength{\rightskip}{0pt plus 5cm}synchronized void Servidor.\+devolver\+Trabajo\+Realizando (
+\begin{DoxyParamCaption}
+\item[{{\bf Trabajo}}]{t}
+\end{DoxyParamCaption}
+)}\hypertarget{classServidor_a15c19b2947826047e0664915f86a16d8}{}\label{classServidor_a15c19b2947826047e0664915f86a16d8}
+
+
+Devuelve un trabajo que estaba siendo realizado pero que no pudo ser completado (error en \hyperlink{classCliente}{Cliente}) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em t} & El trabajo \\
+\hline
+\end{DoxyParams}
+\index{Servidor@{Servidor}!esperar\+Cambios\+Trabajos\+Realizando@{esperar\+Cambios\+Trabajos\+Realizando}}
+\index{esperar\+Cambios\+Trabajos\+Realizando@{esperar\+Cambios\+Trabajos\+Realizando}!Servidor@{Servidor}}
+\subsubsection[{\texorpdfstring{esperar\+Cambios\+Trabajos\+Realizando()}{esperarCambiosTrabajosRealizando()}}]{\setlength{\rightskip}{0pt plus 5cm}void Servidor.\+esperar\+Cambios\+Trabajos\+Realizando (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classServidor_adc224162ae15224464bf33d0f6bf79e9}{}\label{classServidor_adc224162ae15224464bf33d0f6bf79e9}
+
+
+Duerme un proceso hasta que se produzcan cambios los trabajos que se están realizando. 
+
+\index{Servidor@{Servidor}!estan\+Trabajos\+Completados@{estan\+Trabajos\+Completados}}
+\index{estan\+Trabajos\+Completados@{estan\+Trabajos\+Completados}!Servidor@{Servidor}}
+\subsubsection[{\texorpdfstring{estan\+Trabajos\+Completados()}{estanTrabajosCompletados()}}]{\setlength{\rightskip}{0pt plus 5cm}synchronized boolean Servidor.\+estan\+Trabajos\+Completados (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classServidor_a210f62b0f4ccd1d3eccc6eff7051d640}{}\label{classServidor_a210f62b0f4ccd1d3eccc6eff7051d640}
+
+
+Comprueba si los trabajos estan completados. 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\index{Servidor@{Servidor}!finalizar@{finalizar}}
+\index{finalizar@{finalizar}!Servidor@{Servidor}}
+\subsubsection[{\texorpdfstring{finalizar()}{finalizar()}}]{\setlength{\rightskip}{0pt plus 5cm}synchronized void Servidor.\+finalizar (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws Unknown\+Host\+Exception, I\+O\+Exception}\hypertarget{classServidor_a6dda49cac122c1933278bae21641bff4}{}\label{classServidor_a6dda49cac122c1933278bae21641bff4}
+
+
+Notifica que todos los trabajos se finalizaron. 
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Unknown\+Host\+Exception} & \\
+\hline
+{\em I\+O\+Exception} & \\
+\hline
+\end{DoxyExceptions}
+\index{Servidor@{Servidor}!hay\+Trabajos\+Por\+Realizar@{hay\+Trabajos\+Por\+Realizar}}
+\index{hay\+Trabajos\+Por\+Realizar@{hay\+Trabajos\+Por\+Realizar}!Servidor@{Servidor}}
+\subsubsection[{\texorpdfstring{hay\+Trabajos\+Por\+Realizar()}{hayTrabajosPorRealizar()}}]{\setlength{\rightskip}{0pt plus 5cm}synchronized boolean Servidor.\+hay\+Trabajos\+Por\+Realizar (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classServidor_ad2d3e79eeac3e52edcec0c4ef17ffce6}{}\label{classServidor_ad2d3e79eeac3e52edcec0c4ef17ffce6}
+
+
+Comprueba si hay trabajos por realizar. 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\index{Servidor@{Servidor}!main@{main}}
+\index{main@{main}!Servidor@{Servidor}}
+\subsubsection[{\texorpdfstring{main(\+String[] args)}{main(String[] args)}}]{\setlength{\rightskip}{0pt plus 5cm}static void Servidor.\+main (
+\begin{DoxyParamCaption}
+\item[{String\mbox{[}$\,$\mbox{]}}]{args}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classServidor_a4f1d3d541947003e9c4db0b0ad40bd1d}{}\label{classServidor_a4f1d3d541947003e9c4db0b0ad40bd1d}
+
+
+Programa \hyperlink{classServidor}{Servidor} principal. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em args} & Argumentos\+: puerto divisiones x\+Centro y\+Centro tamaño iteraciones archivo \\
+\hline
+\end{DoxyParams}
+\index{Servidor@{Servidor}!notificar\+Cambios\+Trabajos\+Realizando@{notificar\+Cambios\+Trabajos\+Realizando}}
+\index{notificar\+Cambios\+Trabajos\+Realizando@{notificar\+Cambios\+Trabajos\+Realizando}!Servidor@{Servidor}}
+\subsubsection[{\texorpdfstring{notificar\+Cambios\+Trabajos\+Realizando()}{notificarCambiosTrabajosRealizando()}}]{\setlength{\rightskip}{0pt plus 5cm}void Servidor.\+notificar\+Cambios\+Trabajos\+Realizando (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classServidor_a7dcc9a8eaf0ab0e7eedd0fb41c03849c}{}\label{classServidor_a7dcc9a8eaf0ab0e7eedd0fb41c03849c}
+
+
+Notifica que se han producido cambios en los trabajos que se están realizando. 
+
+\index{Servidor@{Servidor}!run@{run}}
+\index{run@{run}!Servidor@{Servidor}}
+\subsubsection[{\texorpdfstring{run()}{run()}}]{\setlength{\rightskip}{0pt plus 5cm}void Servidor.\+run (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classServidor_a24622869d200039d3e0df70b6e29eb9e}{}\label{classServidor_a24622869d200039d3e0df70b6e29eb9e}
+
+
+Gestiona las conexiones entrantes no se acaben los trabajos. 
+
+\index{Servidor@{Servidor}!sacar\+Trabajo\+Sin\+Realizar@{sacar\+Trabajo\+Sin\+Realizar}}
+\index{sacar\+Trabajo\+Sin\+Realizar@{sacar\+Trabajo\+Sin\+Realizar}!Servidor@{Servidor}}
+\subsubsection[{\texorpdfstring{sacar\+Trabajo\+Sin\+Realizar()}{sacarTrabajoSinRealizar()}}]{\setlength{\rightskip}{0pt plus 5cm}synchronized {\bf Trabajo} Servidor.\+sacar\+Trabajo\+Sin\+Realizar (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classServidor_a1afa144ebeacbf0e9960ab8b5a1d3419}{}\label{classServidor_a1afa144ebeacbf0e9960ab8b5a1d3419}
+
+
+Saca un trabajo sin realizar, lo mete en realizando y devuelve el \hyperlink{classTrabajo}{Trabajo}. 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{Servidor_8java}{Servidor.\+java}\end{DoxyCompactItemize}

@@ -14,6 +14,12 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.PriorityQueue;
 
+
+/**
+ * Implementa la clase Servidor que gestiona todas las conexiones y los trabajos
+ * @author marmol
+ *
+ */
 public class Servidor implements Runnable {
 	private int puerto;
 	private Queue<Trabajo> trabajosPorRealizar;
@@ -28,6 +34,18 @@ public class Servidor implements Runnable {
 	int divisiones;
 	String dir;
 	
+	/**
+	 * Constructor
+	 * @param puerto
+	 * @param divisiones
+	 * @param xC
+	 * @param yC
+	 * @param size
+	 * @param N
+	 * @param maxIt
+	 * @param dir
+	 * @throws Exception
+	 */
 	Servidor(int puerto, int divisiones, double xC, double yC, int size, int N, int maxIt, String dir) throws Exception {
 		this.N = N;
 		this.dir = dir;
@@ -54,14 +72,26 @@ public class Servidor implements Runnable {
 		this.finalizado = false;
 	}
 	
+	/**
+	 * Comprueba si los trabajos estan completados
+	 * @return
+	 */
 	public synchronized boolean estanTrabajosCompletados(){
 		return trabajosPorRealizar.isEmpty() && trabajosRealizando.isEmpty();
 	}
 	
+	/**
+	 * Comprueba si hay trabajos por realizar
+	 * @return
+	 */
 	public synchronized boolean hayTrabajosPorRealizar(){
 		return !trabajosPorRealizar.isEmpty();
 	}
 	
+	/**
+	 * Saca un trabajo sin realizar, lo mete en realizando y devuelve el Trabajo
+	 * @return
+	 */
 	public synchronized Trabajo sacarTrabajoSinRealizar(){
 		if (trabajosPorRealizar.isEmpty()){
 			return null;
@@ -73,6 +103,11 @@ public class Servidor implements Runnable {
 		}
 	}
 	
+	/**
+	 * Añade un trabajo que estaba siendo realizado y ahora esa completado (procesado) por un Cliente
+	 * @param t El trabajo
+	 * @throws Exception
+	 */
 	public synchronized void anhadirTrabajoRealizado(Trabajo t) throws Exception {
 		if (trabajosRealizando.containsKey(t.id)){
 			trabajosRealizados.add(t);
@@ -86,12 +121,19 @@ public class Servidor implements Runnable {
 		}
 	}
 	
+	/**
+	 * Devuelve un trabajo que estaba siendo realizado pero que no pudo ser completado (error en Cliente)
+	 * @param t El trabajo
+	 */
 	public synchronized void devolverTrabajoRealizando(Trabajo t){
 		trabajosRealizando.remove(t.id);
 		trabajosPorRealizar.add(t);
 		notificarCambiosTrabajosRealizando();
 	}
 	
+	/**
+	 * Duerme un proceso hasta que se produzcan cambios los trabajos que se están realizando
+	 */
 	public void esperarCambiosTrabajosRealizando(){
 		synchronized(trabajosRealizando){
 			try {
@@ -100,12 +142,19 @@ public class Servidor implements Runnable {
 		}
 	}
 	
+	/**
+	 * Notifica que se han producido cambios en los trabajos que se están realizando
+	 */
 	public void notificarCambiosTrabajosRealizando(){
 		synchronized(trabajosRealizando){
 			trabajosRealizando.notifyAll();
 		}
 	}
 	
+	/**
+	 * Integra todos los trabajos realizados en una única imagen usando PGM
+	 * @throws Exception
+	 */
 	private synchronized void  integrarTrabajosRealizados() throws Exception {
 		PGM imagen = new PGM(dir, this.N, this.N, 255);
 		
@@ -116,6 +165,11 @@ public class Servidor implements Runnable {
 		imagen.cerrar();
 	}
 	
+	/**
+	 * Notifica que todos los trabajos se finalizaron
+	 * @throws UnknownHostException
+	 * @throws IOException
+	 */
 	public synchronized void finalizar() throws UnknownHostException, IOException {
 		nClientesFinalizados++;
 		if (nClientesFinalizados == nClientesTotales){
@@ -124,14 +178,24 @@ public class Servidor implements Runnable {
 		}
 	}
 	
+	/**
+	 * Incrementa el número de clientes totales
+	 */
 	private synchronized void nuevoCliente(){
 		nClientesTotales++;
 	}
 	
+	/**
+	 * Comprueba si el Servidor puede finalizar
+	 * @return
+	 */
 	private boolean podemosFinalizar(){
 		return finalizado; 
 	}
 	
+	/**
+	 * Gestiona las conexiones entrantes no se acaben los trabajos
+	 */
 	public void run() {
 		int intentos = 0;
 		Socket s;
@@ -176,7 +240,11 @@ public class Servidor implements Runnable {
 		System.out.println("Servidor thread finalizado");
 	}
 	
-	public static void main(String[] args) throws Exception {
+	/**
+	 * Programa Servidor principal
+	 * @param args Argumentos: puerto divisiones xCentro yCentro tamaño iteraciones archivo
+	 */
+	public static void main(String[] args)  {
 		
 		
 		try {
