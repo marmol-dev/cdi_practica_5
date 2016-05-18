@@ -29,16 +29,25 @@ public class Cliente implements Runnable {
 		int intentos = 0;
 		
 		Accion accionRespuesta = null;
+		boolean finalizado = false;
 		
 		do {
 			try {
+				
+				/*if (id == 5){
+					throw new RuntimeException("Intencionada");
+				}*/
+				
 				this.oos.writeObject(new Accion(Accion.PEDIR_TRABAJO));
 				accionRespuesta = (Accion) this.ois.readObject();
+				
 				
 				if (accionRespuesta.getNombre().equals(Accion.ENVIAR_TRABAJO)){
 					System.out.println("Hemos recibido trabajo");
 					hacerTrabajo(accionRespuesta.getTrabajo());
 					this.oos.writeObject(new Accion(Accion.ENVIAR_TRABAJO_TERMINADO, accionRespuesta.getTrabajo()));
+				} else {
+					finalizado = true;
 				}
 				
 				intentos = 0;
@@ -46,7 +55,7 @@ public class Cliente implements Runnable {
 				intentos++;
 				e.printStackTrace();
 			}
-		} while(intentos < 5 && !accionRespuesta.getNombre().equals(Accion.FINALIZAR_CLIENTE));
+		} while(intentos < 5 && !finalizado);
 		
 		try {
 			this.oos.close();

@@ -68,6 +68,7 @@ public class Servidor implements Runnable {
 		} else {
 			Trabajo actual = trabajosPorRealizar.poll();
 			trabajosRealizando.put(actual.id, actual);
+			notificarCambiosTrabajosRealizando();
 			return actual;
 		}
 	}
@@ -76,11 +77,32 @@ public class Servidor implements Runnable {
 		if (trabajosRealizando.containsKey(t.id)){
 			trabajosRealizados.add(t);
 			trabajosRealizando.remove(t.id);
+			notificarCambiosTrabajosRealizando();
 			if (estanTrabajosCompletados()){
 				this.notify();
 			}
 		} else {
 			throw new Exception("El trabajo no se está realizando");
+		}
+	}
+	
+	public synchronized void devolverTrabajoRealizando(Trabajo t){
+		trabajosRealizando.remove(t.id);
+		trabajosPorRealizar.add(t);
+		notificarCambiosTrabajosRealizando();
+	}
+	
+	public void esperarCambiosTrabajosRealizando(){
+		synchronized(trabajosRealizando){
+			try {
+				trabajosRealizando.wait();
+			} catch (Exception e){}
+		}
+	}
+	
+	public void notificarCambiosTrabajosRealizando(){
+		synchronized(trabajosRealizando){
+			trabajosRealizando.notifyAll();
 		}
 	}
 	

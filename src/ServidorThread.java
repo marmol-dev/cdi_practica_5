@@ -31,8 +31,26 @@ public class ServidorThread implements Runnable {
 					case Accion.PEDIR_TRABAJO:
 						t = this.servidor.sacarTrabajoSinRealizar();
 						if (t == null){
-							this.oos.writeObject(new Accion(Accion.FINALIZAR_CLIENTE));
-							finalizado=true;
+							if (this.servidor.estanTrabajosCompletados()){
+								this.oos.writeObject(new Accion(Accion.FINALIZAR_CLIENTE));
+								finalizado=true;
+							} else {
+								System.out.println("Aún no están los trabajos completados");
+								
+								this.servidor.esperarCambiosTrabajosRealizando();
+								
+								while(!this.servidor.estanTrabajosCompletados() && (t == null)){
+									this.servidor.esperarCambiosTrabajosRealizando();
+									t = this.servidor.sacarTrabajoSinRealizar();
+								}
+								
+								if (t != null){
+									this.oos.writeObject(new Accion(Accion.ENVIAR_TRABAJO, t));
+								} else {
+									this.oos.writeObject(new Accion(Accion.FINALIZAR_CLIENTE));
+									finalizado = true;
+								}
+							}
 						} else {
 							this.oos.writeObject(new Accion(Accion.ENVIAR_TRABAJO, t));
 						}
